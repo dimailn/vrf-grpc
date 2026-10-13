@@ -4,6 +4,14 @@
   "description": "gRPC (Connect) effect for the vrf form engine",
   "author": "Dmitry Sadovsky <dimailn9@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimailn/vrf-grpc.git"
+  },
+  "homepage": "https://github.com/dimailn/vrf-grpc#readme",
+  "bugs": {
+    "url": "https://github.com/dimailn/vrf-grpc/issues"
+  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
