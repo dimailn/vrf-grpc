@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package todo.v1;
+
+option go_package = "github.com/dimailn/vrf-grpc/server/gen/todo/v1;todov1";
+
+// Todo is the resource managed by the playground service.
+// Field names map 1:1 to the vrf resource shape (protobuf-es emits camelCase
+// in TS, which already matches vrf's conventions).
+message Todo {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  bool completed = 4;
+  // RFC3339 timestamp, set by the server on creation.
+  string created_at = 5;
+}
+
+message GetTodoRequest {
+  string id = 1;
+}
+
+message ListTodosRequest {
+  // Optional filter: when set, only todos with this completed state are returned.
+  optional bool completed = 1;
+}
+
+message ListTodosResponse {
+  repeated Todo todos = 1;
+}
+
+message CreateTodoRequest {
+  Todo todo = 1;
+}
+
+message UpdateTodoRequest {
+  string id = 1;
+  Todo todo = 2;
+}
+
+message DeleteTodoRequest {
+  string id = 1;
+}
+
+message DeleteTodoResponse {}
+
+// CompleteTodo demonstrates a vrf "action" (Todo#complete) that mutates the
+// resource without a full update payload.
+message CompleteTodoRequest {
+  string id = 1;
+}
+
+service TodoService {
+  // vrf onLoad  -> GetTodo
+  rpc GetTodo(GetTodoRequest) returns (Todo);
+  // vrf loadSource("todos") -> ListTodos
+  rpc ListTodos(ListTodosRequest) returns (ListTodosResponse);
+  // vrf onCreate -> CreateTodo
+  rpc CreateTodo(CreateTodoRequest) returns (Todo);
+  // vrf onUpdate -> UpdateTodo
+  rpc UpdateTodo(UpdateTodoRequest) returns (Todo);
+  rpc DeleteTodo(DeleteTodoRequest) returns (DeleteTodoResponse);
+  // vrf action Todo#complete -> CompleteTodo
+  rpc CompleteTodo(CompleteTodoRequest) returns (Todo);
+}

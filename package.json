@@ -1,0 +1,43 @@
+{
+  "name": "vrf-grpc",
+  "version": "0.0.1",
+  "description": "gRPC (Connect) effect for the vrf form engine",
+  "author": "Dmitry Sadovsky <dimailn9@gmail.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "generate": "buf generate",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "playground": "vite playground",
+    "server": "PORT=8099 go run ./server",
+    "e2e": "tsx scripts/e2e.mts",
+    "test": "tsx --test test/*.test.ts",
+    "test:watch": "tsx --test --watch test/*.test.ts",
+    "prepublishOnly": "npm run build",
+    "pub": "npm test && npm publish"
+  },
+  "peerDependencies": {
+    "@bufbuild/protobuf": "^1.10.0",
+    "@connectrpc/connect": "^1.6.1",
+    "vrf": "*"
+  },
+  "devDependencies": {
+    "@bufbuild/protobuf": "^1.10.0",
+    "@bufbuild/protoc-gen-es": "^1.10.0",
+    "@connectrpc/connect": "^1.6.1",
+    "@connectrpc/connect-web": "^1.6.1",
+    "@connectrpc/protoc-gen-connect-es": "^1.6.1",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "tsup": "^8.3.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.6.0",
+    "vite": "^5.4.0",
+    "vrf": "^1.0.0",
+    "vue": "^3.5.0"
+  }
+}

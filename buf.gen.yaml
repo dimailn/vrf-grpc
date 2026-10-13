@@ -1,0 +1,20 @@
+version: v2
+plugins:
+  # --- Go (server). Only our own todo package; google.rpc comes from the
+  # upstream googleapis Go module, so we exclude the vendored copy below. ---
+  - local: protoc-gen-go
+    out: server/gen
+    opt: paths=source_relative
+  - local: protoc-gen-connect-go
+    out: server/gen
+    opt: paths=source_relative
+
+  # --- TypeScript (adapter + playground client), single shared tree. ---
+  - local: ./node_modules/.bin/protoc-gen-es
+    out: gen/ts
+    opt:
+      - target=ts
+  - local: ./node_modules/.bin/protoc-gen-connect-es
+    out: gen/ts
+    opt:
+      - target=ts

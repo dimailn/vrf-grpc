@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package google.rpc;
+
+option go_package = "google.golang.org/genproto/googleapis/rpc/errdetails;errdetails";
+
+// Minimal vendored subset of google/rpc/error_details.proto.
+//
+// Only BadRequest is needed by the adapter to map field violations onto vrf's
+// per-field errors. The package name and field numbers match the upstream
+// definition, so error details produced by the Go server (which uses the real
+// googleapis errdetails package) decode here by type URL.
+message BadRequest {
+  message FieldViolation {
+    string field = 1;
+    string description = 2;
+  }
+  repeated FieldViolation field_violations = 1;
+}

@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package task.v1;
+
+option go_package = "github.com/dimailn/vrf-grpc/server/gen/task/v1;taskv1";
+
+// A deliberately NON-conventional contract, used by the override unit tests.
+// Nothing here matches the Get/Create/Update/List naming or the flat
+// `{ id }` / `{ name: resource }` request shapes the convention path assumes:
+//  - methods are named Fetch/Add/Save/Tasks/Archive
+//  - the id field is `task_id`, not `id`
+//  - the resource is nested under `data`
+//  - responses wrap the resource (FetchTaskResponse.task) or the id
+//    (AddTaskResponse.task_id)
+message Task {
+  string task_id = 1;
+  string label = 2;
+  bool done = 3;
+}
+
+message FetchTaskRequest {
+  string task_id = 1;
+}
+message FetchTaskResponse {
+  Task task = 1;
+}
+
+message AddTaskRequest {
+  Task data = 1;
+}
+message AddTaskResponse {
+  string task_id = 1;
+}
+
+message SaveTaskRequest {
+  string task_id = 1;
+  Task data = 2;
+}
+
+message TasksRequest {}
+message TasksResponse {
+  repeated Task items = 1;
+}
+
+message ArchiveTaskRequest {
+  string task_id = 1;
+}
+
+service TaskService {
+  rpc FetchTask(FetchTaskRequest) returns (FetchTaskResponse);
+  rpc AddTask(AddTaskRequest) returns (AddTaskResponse);
+  rpc SaveTask(SaveTaskRequest) returns (Task);
+  rpc Tasks(TasksRequest) returns (TasksResponse);
+  rpc ArchiveTask(ArchiveTaskRequest) returns (Task);
+}
