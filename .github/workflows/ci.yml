@@ -32,5 +32,8 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: '1.23'
-      - run: go build ./server
-      - run: go vet ./server
+      # `go build ./server` would try to emit a binary named "server" into the
+      # repo root, colliding with the server/ directory — build all packages
+      # instead (Go then only checks compilation, without writing a binary).
+      - run: go build ./...
+      - run: go vet ./...
